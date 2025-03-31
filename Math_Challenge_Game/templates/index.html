@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="congrats-modal" id="congratsModal">
+    <h2>🎉 Congratulations! 🎉</h2>
+    <p>You've successfully reached the target number!</p>
+    <button class="close-modal" onclick="closeCongratsModal()">Continue Playing</button>
+</div>
+
+<div class="timer-container">
+    <div class="timer" id="timer">02:00</div>
+    <div class="progress-bar">
+        <div class="progress" id="progressBar"></div>
+    </div>
+</div>
+
+<main class="game-container">
+    <div class="game-board">
+        <div class="target-display">
+            <h2>Target Number</h2>
+            <div class="target-number">{{ target }}</div>
+        </div>
+        
+        <h3>Available Numbers</h3>
+        <div class="numbers-grid" id="numbersGrid" data-numbers="{{ numbers | tojson }}">
+            {% for num in numbers %}
+            <div class="number-card draggable" draggable="true" data-value="{{ num }}">{{ num }}</div>
+            {% endfor %}
+        </div>
+        
+        <h3>Build Your Equation</h3>
+        <div class="equation-builder" id="equationBuilder"></div>
+        
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="addOperation('+')">+</button>
+            <button class="btn btn-secondary" onclick="addOperation('-')">-</button>
+            <button class="btn btn-secondary" onclick="addOperation('*')">×</button>
+            <button class="btn btn-secondary" onclick="addOperation('/')">÷</button>
+            <button class="btn btn-secondary" onclick="addOperation('(')">(</button>
+            <button class="btn btn-secondary" onclick="addOperation(')')">)</button>
+            <button class="btn btn-danger" onclick="clearEquation()">Clear</button>
+            <button class="btn btn-primary" onclick="checkSolution()">Check Solution</button>
+            <button class="btn btn-warning" onclick="newNumbers()">New Numbers</button>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <h3>Your Result: <span id="userResult"></span></h3>
+            <h3>Difference from Target: <span id="difference"></span></h3>
+        </div>
+    </div>
+    
+    <div class="solution-panel">
+        <h2>Solution Helper</h2>
+        <div id="solutionArea">
+            <p>Your solution will appear here after you check your result.</p>
+        </div>
+        <div class="loading-spinner" id="loadingSpinner"></div>
+    </div>
+</main>
+{% endblock %}
